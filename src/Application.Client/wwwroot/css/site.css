@@ -1,0 +1,379 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Paytone+One');
+
+html, body {
+    font-family: 'Paytone One', sans-serif;
+    background: #191d3a;
+}
+
+html#js, #js body {
+    background: #3a1919;
+}
+
+a {
+    color: #f0b600 !important;
+}
+
+app, #app {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-row {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    flex: 1;
+}
+
+.main .top-row {
+    background-color: #5e6fa3;
+    border-bottom: 1px solid #5e6fa3;
+}
+
+#js .main .top-row {
+    background-color: #a37d5e;
+    border-bottom: 1px solid #a37d5e;
+}
+
+.sidebar {
+    background-image: linear-gradient(180deg, #5e6fa3 0%, #3b4368 70%);
+}
+
+#js .sidebar {
+    background-image: linear-gradient(180deg, #a37d5e 0%, #68483b 70%);
+}
+
+.sidebar .top-row {
+    background-color: rgba(0,0,0,0.4);
+}
+
+    .sidebar .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .sidebar .oi {
+        width: 2rem;
+        font-size: 1.1rem;
+        vertical-align: text-top;
+        top: -2px;
+    }
+
+.nav-item {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+.nav-item a {
+    color: #fff !important;
+}
+
+    .nav-item:first-of-type {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+        .nav-item a.active {
+            background-color: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        .nav-item a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 767.98px) {
+    .main .top-row {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    app, #app {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .main .top-row {
+        position: sticky;
+        z-index: 99999999999;
+        top: 0;
+    }
+
+    .main > div {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .sidebar .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+
+.display-row-calculator {
+    border-radius: 0px;
+    font-size: 22px;
+    box-shadow: none !important;
+}
+
+.calculator-body {
+    background-color: #bdd4e7;
+    background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+    margin: 0 auto;
+}
+
+.calculator-body button {
+    background-color: #e7eff9;
+    background-image: linear-gradient(315deg, #e7eff9 0%, #cfd6e6 74%);
+    color: #000;
+}
+
+#js .calculator-body {
+    background-color: #e9bcb7;
+    background-image: linear-gradient(315deg, #e9bcb7 0%, #29524a 74%);
+}
+
+.color-black * {
+    color: #000 !important;
+}
+
+.color-red * {
+    color: #f00 !important;
+}
+
+.w-300 {
+    width: 300px !important;
+}
+
+.h-300 {
+    height: 300px !important;
+}
+
+.deck-card {
+    margin: 0 auto;
+    position: relative;
+}
+
+.deck-card-content {
+    display: flex;
+    flex-direction: row;
+}
+
+    .deck-card-content-column {
+        width: 94px;
+        margin: auto;
+    }
+
+.deck-card-content-symbol {
+    font-size: 60px;
+    line-height: 60px;
+    min-height: 60px;
+    margin: 0px;
+}
+
+.border-radius-0 {
+    border-radius: 0 !important;
+}
+
+.card-selector {
+   font-size: 30px;
+   text-align: center;
+   margin: 0 auto;
+   height: 60px !important;
+   max-height: unset;
+   width: 100px;
+}
+
+.deck-card-credits {
+    position: absolute;
+    bottom: -10px;
+    left: 5px;
+    font-size: 14px;
+    color: #000 !important;
+}
+
+.avenger-card {
+    background-color: #e7eff9;
+    background-image: linear-gradient(315deg, #e7eff9 0%, #cfd6e6 74%);
+    color: #000;
+    padding: 10px;
+    height: auto;
+    border-radius: 4px;
+}
+
+    .avenger-card.js {
+        background-color: #e9bcb7;
+        background-image: linear-gradient(315deg, #e9bcb7 0%, #29524a 74%);
+    }
+
+    .avenger-card img {
+        object-fit: cover;
+        height: 150px;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #777;
+        box-shadow: 0 8px 6px -6px black;
+    }
+
+    .avenger-card button {
+        background-color: #bdd4e7;
+        background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+        color: #000;
+    }
+
+    .avenger-card.js button {
+        background-color: #e7eff9;
+        background-image: linear-gradient(315deg, #e7eff9 0%, #cfd6e6 74%);
+        color: #000;
+    }
+
+    .avenger-card > div {
+        position: relative;
+    }
+
+    .avenger-card .credits {
+        position: absolute;
+        bottom: -12px;
+        right: 0px;
+        font-size: 10px;
+    }
+
+.loading-splash {
+    margin-top: 15%;
+}
+
+#gameboard h3 {
+    color: #fff;
+    margin: 10px auto;
+}
+
+#gameboard > div {
+    width: 100%;
+}
+
+#gameboard table {
+    width: 450px;
+    height: 450px;
+    margin: 10px auto;
+    text-align: center;
+}
+
+    #gameboard table tr {
+        height: 150px;
+        width: 450px;
+    }
+
+    #gameboard table td {
+        height: 150px;
+        width: 150px;
+        padding: 4px;
+    }
+
+        #gameboard table td button {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #bebebe;
+            cursor: pointer;
+            font-size: 66px;
+            font-weight: bold;
+            
+        }
+
+#gameboard.js table td button {
+    background-color: #e7eff9;
+    background-image: linear-gradient(315deg, #e7eff9 0%, #cfd6e6 74%);
+    color: #000;
+}
+
+#gameboard table td button.win {
+    background-color: #bdd4e7;
+    background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+    color: #fff;
+}
+
+#gameboard.js table td button.win {
+    background-color: #e9bcb7;
+    background-image: linear-gradient(315deg, #e9bcb7 0%, #29524a 74%);
+    color: #fff;
+}
+
+#gameboard .credits {
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    top: -10px;
+    margin-left: 275px;
+}
+
+#homepage {
+    text-align: center;
+    width: 100%;
+    background-color: #bdd4e7;
+    background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+}
+
+    #homepage.js {
+        background-color: #5d4257;
+        background-image: linear-gradient(315deg, #5d4257 0%, #a5c7b7 74%);
+    }
+
+    .tech-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        text-align: center;
+        border-radius: 4px;
+        border: 1px solid #777;
+        box-shadow: 0 8px 6px -6px black;
+    }
+
+#homepage .btn-source {
+    background-color: #000000;
+    background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
+}
+
+.versus-grid {
+    display: flex;
+    flex-direction: row;
+}
+
+.versus-grid h1 {
+    margin: auto;
+}

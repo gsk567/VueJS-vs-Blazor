@@ -1,0 +1,160 @@
+﻿@page "/blazor/calculator"
+
+<div class="card p-2 calculator-body col-6 text-center">
+    <div class="row mb-4">
+        <div class="col-12">
+            <input type="text" class="form-control w-100 text-right display-row-calculator" readonly value="@memory" />
+            <input type="text" class="form-control w-100 text-right display-row-calculator" readonly value="@display" />
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@ClearMemory">C</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@SquareRootCurrentDisplayValue">√</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@SetPiOnDisplay">π</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => MakeOperation(Operations.Divide))">÷</button></div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(7))">7</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(8))">8</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(9))">9</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => MakeOperation(Operations.Multiply))">×</button></div>
+    </div>                                              
+    <div class="row mb-4">                              
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(4))">4</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(5))">5</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(6))">6</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => MakeOperation(Operations.Decrement))">-</button></div>
+    </div>                                        
+    <div class="row mb-4">                        
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(1))">1</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(2))">2</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(3))">3</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => MakeOperation(Operations.Increment))">+</button></div>
+    </div>                                             
+    <div class="row mb-4">                             
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@ChangeSign">±</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@(e => WriteNumber(0))">0</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@WriteDecimalPoint">⋅</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" onclick="@CalculateResult">=</button></div>
+    </div>
+    <p class="m-0 text-right">Powered by Blazor</p>
+</div>
+
+@functions {
+    string memory = string.Empty;
+    string display = "0";
+    double currentResult = 0;
+    Operations currentOperation = Operations.None;
+
+    void WriteNumber(int number)
+    {
+        if (display == "0")
+        {
+            display = number.ToString();
+        }
+        else
+        {
+            display += number;
+        }
+    }
+
+    void ChangeSign()
+    {
+        display = (double.Parse(display) * (-1)).ToString();
+    }
+
+    void WriteDecimalPoint()
+    {
+        display += ".";
+    }
+
+    void MakeOperation(Operations operation)
+    {
+        if (currentResult == 0 && currentOperation == Operations.None)
+        {
+            currentResult = double.Parse(display);
+        }
+        else
+        {
+            ApplyOperation(double.Parse(display), currentOperation);
+        }
+        memory = $" {currentResult} {OperationToString(operation)} ";
+        display = "0";
+        currentOperation = operation;
+    }
+
+    void CalculateResult()
+    {
+        ApplyOperation(double.Parse(display), currentOperation);
+        memory += display + " = " + currentResult;
+        display = "0";
+        currentResult = 0;
+        currentOperation = Operations.None;
+    }
+
+    void ApplyOperation(double number, Operations operation)
+    {
+        switch (operation)
+        {
+            case Operations.Increment:
+                currentResult = currentResult + number;
+                break;
+            case Operations.Decrement:
+                currentResult = currentResult - number;
+                break;
+            case Operations.Multiply:
+                currentResult = currentResult * number;
+                break;
+            case Operations.Divide:
+                currentResult = currentResult / number;
+                break;
+        }
+    }
+
+    string OperationToString(Operations operation)
+    {
+        switch (operation)
+        {
+            case Operations.Increment:
+                return "+";
+            case Operations.Decrement:
+                return "-";
+            case Operations.Multiply:
+                return "*";
+            case Operations.Divide:
+                return "/";
+        }
+        return string.Empty;
+    }
+
+    void SetPiOnDisplay()
+    {
+        display = Math.PI.ToString();
+    }
+
+    void SquareRootCurrentDisplayValue()
+    {
+        double parsedDisplay = double.Parse(display);
+        if (parsedDisplay >= 0)
+        {
+            display = Math.Sqrt(parsedDisplay).ToString();
+        }
+    }
+
+    void ClearMemory()
+    {
+        memory = string.Empty;
+        display = "0";
+        currentResult = 0;
+        currentOperation = Operations.None;
+    }
+
+    enum Operations
+    {
+        None,
+        Increment,
+        Decrement,
+        Multiply,
+        Divide
+    }
+}

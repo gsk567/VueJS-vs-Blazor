@@ -1,0 +1,76 @@
+﻿<div class="row js" id="gameboard">
+    <h3 v-if="currentGameState < 9 && winner == null">Player with mark {{currentPlayer}} has to make his/her move.</h3>
+    <h3 v-if="currentGameState == 9 || winner != null">The game has finished! {{(winner != null) ? "Winner is sign " + winner : ""}}</h3>
+    <div>
+        <table>
+            <tr v-for="r in 3">
+                <td v-for="c in 3"><button v-bind:class="{ 'win' : (winnerCombination.includes((r-1)*3 + (c-1)))}" v-on:click="clickCell(r, c, $event)"></button></td>
+            </tr>
+        </table>
+    </div>
+    <p class="credits">Powered by VueJS</p>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script type="text/javascript">
+        const gameboard = new Vue({
+            el: '#gameboard',
+            data: {
+                currentPlayer: "X",
+                cells: createArray(9, null),
+                currentGameState: 0,
+                winner: null,
+                winnerCombination: []
+            },
+            methods: {
+                clickCell: function (row, column, event) {
+                    let cellIndex = ((row - 1) * 3) + (column - 1);
+                    if (this.$data.cells.includes(null) && this.$data.winner == null) {
+                        this.$data.currentGameState++;
+                        this.$data.cells[cellIndex] = this.$data.currentPlayer;
+                        event.target.innerText = this.$data.currentPlayer;
+                        event.target.disabled = true;
+                        this.$data.currentPlayer = (this.$data.currentPlayer == "X") ? "O" : "X";
+                    }
+                },
+                getCellValue: function (row, column) {
+                    return this.$data.cells[(row - 1) * 3 + (column - 1)];
+                },
+                winFunction: function (winner, winnerCombination) {
+                    this.$data.winner = winner;
+                    this.$data.winnerCombination = winnerCombination;
+                }
+            },
+            watch: {
+                currentGameState: function (newVal, oldVal) {
+                    axios.post('/api/tic-tac-toe/check-game-status', {
+                        gameboard: this.$data.cells
+                    })
+                        .then(function (response) {
+                            if (response.data != null) {
+                                let winnerSign = response.data.winnerSign;
+                                let winnerCombination = response.data.winnerCombination;
+                                gameboard.winFunction(winnerSign, winnerCombination);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            }
+        });
+
+        function createArray(len, itm) {
+            var arr1 = [itm],
+                arr2 = [];
+            while (len > 0) {
+                if (len & 1) arr2 = arr2.concat(arr1);
+                arr1 = arr1.concat(arr1);
+                len >>>= 1;
+            }
+            return arr2;
+        }
+    </script>
+}

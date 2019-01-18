@@ -1,0 +1,48 @@
+﻿@using Application.Shared
+@using Microsoft.JSInterop
+@page "/blazor/avengers"
+@inject HttpClient Http
+
+<div class="w-100 text-center">
+    @if (characters == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div>
+            <div class="row">
+                @foreach (var character in characters)
+                {
+                    <div class="col-12 col-sm-4 p-2">
+                        <div class="avenger-card row m-2">
+                            <div class="col-6">
+                                <img src="@character.Avatar" />
+                            </div>
+                            <div class="col-6">
+                                <p>@character.Name</p>
+                                <button class="btn" onclick="@(e => ShowAvengerId(character.Id))">Get ID</button>
+                                <p class="credits">Powered by Blazor</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    }
+</div>
+
+@functions {
+    MarvelCharacter[] characters;
+
+    public async void ShowAvengerId(Guid id)
+    {
+        await JSRuntime.Current.InvokeAsync<string>("alertFunctions.showAvengerId", id);
+    }
+
+    protected override async Task OnInitAsync()
+    {
+        characters = await Http.GetJsonAsync<MarvelCharacter[]>("api/data/get-random-marvel-characters");
+    }
+}

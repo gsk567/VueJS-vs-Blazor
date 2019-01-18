@@ -1,0 +1,49 @@
+﻿<div class="w-100 text-center">
+    <div id="avengers">
+        <div class="row">
+            <div v-for="character in characters" class="col-12 col-sm-4 p-2">
+                <div class="avenger-card row m-2 js">
+                    <div class="col-6">
+                        <img v-bind:src="character.avatar" />
+                    </div>
+                    <div class="col-6">
+                        <p>{{character.name}}</p>
+                        <button class="btn" v-on:click="showAvengerId(character.id)">Get ID</button>
+                        <p class="credits">Powered by VueJS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="js/alertFunctions.js"></script>
+    <script type="text/javascript">
+        const avengers = new Vue({
+            el: '#avengers',
+            data: {
+                characters: []
+            },
+            methods: {
+                showAvengerId: function (id) {
+                    alertFunctions.showAvengerId(id);
+                }
+            },
+            mounted: function () {
+                axios.get('/api/data/get-random-marvel-characters')
+                    .then(function (response) {
+                        if (response.data != null) {
+                            let characters = response.data;
+                            avengers.characters = characters;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        })
+    </script>
+}

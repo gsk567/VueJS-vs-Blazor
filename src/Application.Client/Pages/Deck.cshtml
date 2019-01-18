@@ -1,0 +1,37 @@
+﻿@page "/blazor/deck"
+
+<div id="deck" class="w-100 text-center">
+    <div class="form-group row">
+        <select bind="@Type" class="form-control text-center card-selector">
+            <option value="1">&#9827;</option>
+            <option value="2">&#9830;</option>
+            <option value="3">&#9829;</option>
+            <option value="4">&#9824;</option>
+        </select>
+        <select bind="@Rank" class="form-control text-center card-selector">
+            @for (int i = 2; i <= 10; i++)
+            {
+                <option value="@i">@i</option>
+            }
+        </select>
+    </div>
+    <PlayingCard Type="@Type" Rank="@Rank"></PlayingCard>
+</div>
+
+@functions {
+
+    private int type = 1;
+    private int rank = 2;
+
+    public int Type
+    {
+        get { return type; }
+        set { type = value; }
+    }
+
+    public int Rank
+    {
+        get { return rank; }
+        set { rank = value; }
+    }
+}

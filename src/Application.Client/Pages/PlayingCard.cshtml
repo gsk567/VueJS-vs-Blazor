@@ -1,0 +1,119 @@
+﻿<div class="card deck-card w-300 pt-1 pb-1 pr-2 pl-2 @GetTypeSymbol(Type)[1]">
+    <div class="front">
+        <div class="text-left w-100">
+            <h3 class="mb-1">@Rank</h3>
+            <h3>@GetTypeSymbol(Type)[0]</h3>
+        </div>
+        <div class="w-100 row h-300 deck-card-content m-0">
+            <div class="deck-card-content-column">
+                @foreach (var column in GetColumnsContent(Rank, Type)[0])
+                {
+                    <p class="deck-card-content-symbol">@column</p>
+                }
+            </div>
+            <div class="deck-card-content-column">
+                @foreach (var column in GetColumnsContent(Rank, Type)[1])
+                {
+                    <p class="deck-card-content-symbol">@column</p>
+                }
+            </div>
+            <div class="deck-card-content-column">
+                @foreach (var column in GetColumnsContent(Rank, Type)[2])
+                {
+                    <p class="deck-card-content-symbol">@column</p>
+                }
+            </div>
+        </div>
+        <div class="text-right w-100">
+            <h3 class="mb-1">@Rank</h3>
+            <h3>@GetTypeSymbol(Type)[0]</h3>
+        </div>
+    </div>
+    <p class="deck-card-credits">Powered by Blazor</p>
+</div>
+
+@functions {
+    [Parameter]
+    public int Type { get; set; }
+
+    [Parameter]
+    public int Rank { get; set; }
+
+    string[] GetTypeSymbol(int type)
+    {
+        string[] characterSymbol = null;
+        switch (Type)
+        {
+            case 1:
+                characterSymbol = new string[2] { "♣", "color-black" };
+                break;
+            case 2:
+                characterSymbol = new string[2] { "♦", "color-red" };
+                break;
+            case 3:
+                characterSymbol = new string[2] { "♥", "color-red" };
+                break;
+            case 4:
+                characterSymbol = new string[2] { "♠", "color-black" };
+                break;
+        }
+
+        return characterSymbol;
+    }
+
+    List<string>[] GetColumnsContent(int rank, int type)
+    {
+        List<string>[] contentArray = new List<string>[3]
+        {
+            new List<string>(),
+            new List<string>(),
+            new List<string>()
+        };
+        string symbolHtml = GetTypeSymbol(type)[0];
+        string emptyHtml = string.Empty;
+        switch (rank)
+        {
+            case 2:
+                contentArray[1] = new List<string> { symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml };
+                break;
+            case 3:
+                contentArray[1] = new List<string> { symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml};
+                break;
+            case 4:
+                contentArray[0] = new List<string> { symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml};
+                contentArray[2] = new List<string> { symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml};
+                break;
+            case 5:
+                contentArray[0] = new List<string> { symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml};
+                contentArray[1] = new List<string> { emptyHtml, symbolHtml, emptyHtml};
+                contentArray[2] = new List<string> { symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml};
+                break;
+            case 6:
+                contentArray[0] = new List<string> { symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml};
+                contentArray[2] = new List<string> { symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml};
+                break;
+            case 7:
+                contentArray[0] = new List<string> { symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml};
+                contentArray[1] = new List<string> { symbolHtml, emptyHtml, emptyHtml};
+                contentArray[2] = new List<string> { symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml};
+                break;
+            case 8:
+                contentArray[0] = new List<string> { symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml};
+                contentArray[1] = new List<string> { symbolHtml, emptyHtml, emptyHtml, symbolHtml};
+                contentArray[2] = new List<string> { symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml};
+                break;
+            case 9:
+                contentArray[0] = new List<string> { symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml};
+                contentArray[1] = new List<string> { emptyHtml, symbolHtml, emptyHtml};
+                contentArray[2] = new List<string> { symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml};
+                break;
+            case 10:
+                contentArray[0] = new List<string> { symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml};
+                contentArray[1] = new List<string> { symbolHtml, emptyHtml, symbolHtml};
+                contentArray[2] = new List<string> { symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml};
+                break;
+        }
+
+        return contentArray;
+    }
+}

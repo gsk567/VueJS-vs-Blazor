@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html id="js">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>VueJS</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="app">
+        <div class="sidebar">
+            <div class="top-row pl-4 navbar navbar-dark">
+                <p class="navbar-brand m-0 w-100 text-center"><a>VueJS</a> VS <a target="_blank" href="/">Blazor</a></p>
+                <button class="navbar-toggler">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            @await Html.PartialAsync("_NavMenu")
+        </div>
+        <div class="main">
+            <div class="top-row px-4">
+                <a href="https://www.gsk567.com/" target="_blank" class="ml-md-auto">gsk567</a>
+            </div>
+
+            <div class="content px-4">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

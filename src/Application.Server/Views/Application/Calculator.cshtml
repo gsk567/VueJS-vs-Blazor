@@ -1,0 +1,119 @@
+﻿<div class="card p-2 calculator-body col-6 text-center" id="calculator">
+    <div class="row mb-4">
+        <div class="col-12">
+            <input type="text" class="form-control w-100 text-right display-row-calculator" v-model="memory" readonly />
+            <input type="text" class="form-control w-100 text-right display-row-calculator" v-model="display" readonly />
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="clearMemory()">C</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="squareRootCurrentDisplayValue()">√</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="setPiOnDisplay()">π</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="makeOperation('/')">÷</button></div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(7)">7</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(8)">8</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(9)">9</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="makeOperation('*')">×</button></div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(4)">4</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(5)">5</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(6)">6</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="makeOperation('-')">-</button></div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(1)">1</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(2)">2</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(3)">3</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="makeOperation('+')">+</button></div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="changeSign()">±</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeNumber(0)">0</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="writeDecimalPoint()">⋅</button></div>
+        <div class="col-3"><button class="btn btn-lg btn-secondary w-100 text-center" v-on:click="calculateResult()">=</button></div>
+    </div>
+    <p class="m-0 text-right">Powered by VueJS</p>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script type="text/javascript">
+        const calculator = new Vue({
+            el: '#calculator',
+            data: {
+                memory: "",
+                display: "0",
+                currentResult: 0,
+                currentOperation: null
+            },
+            methods: {
+                writeNumber: function (number) {
+                    if (this.$data.display == "0") {
+                        this.$data.display = number.toString();
+                    }
+                    else {
+                        this.$data.display += number;
+                    }
+                },
+                changeSign: function () {
+                    this.$data.display = (parseFloat(this.$data.display) * (-1)).toString();
+                },
+                writeDecimalPoint: function () {
+                    display += ".";
+                },
+                makeOperation: function (operation) {
+                    if (this.$data.currentResult == 0 && this.$data.currentOperation == null) {
+                        this.$data.currentResult = parseFloat(this.$data.display);
+                    }
+                    else {
+                        this.applyOperation(parseFloat(this.$data.display), this.$data.currentOperation);
+                    }
+                    this.$data.memory = " " + this.$data.currentResult + " " + operation + " ";
+                    this.$data.display = "0";
+                    this.$data.currentOperation = operation;
+                },
+                calculateResult: function () {
+                    this.applyOperation(parseFloat(this.$data.display), this.$data.currentOperation);
+                    this.$data.memory += this.$data.display + " = " + this.$data.currentResult;
+                    this.$data.display = "0";
+                    this.$data.currentResult = 0;
+                    this.$data.currentOperation = null;
+                },
+                applyOperation: function (number, operation) {
+                    switch (operation) {
+                        case '+':
+                            this.$data.currentResult = this.$data.currentResult + number;
+                            break;
+                        case '-':
+                            this.$data.currentResult = this.$data.currentResult - number;
+                            break;
+                        case '*':
+                            this.$data.currentResult = this.$data.currentResult * number;
+                            break;
+                        case '/':
+                            this.$data.currentResult = this.$data.currentResult / number;
+                            break;
+                    }
+                },
+                setPiOnDisplay: function () {
+                    this.$data.display = Math.PI.toString();
+                },
+                squareRootCurrentDisplayValue: function () {
+                    var parsedDisplay = parseFloat(this.$data.display);
+                    if (parsedDisplay >= 0) {
+                        this.$data.display = Math.sqrt(parsedDisplay).toString();
+                    }
+                },
+                clearMemory: function () {
+                    this.$data.memory = "";
+                    this.$data.display = "0";
+                    this.$data.currentResult = 0;
+                    this.$data.currentOperation = null;
+                }
+             }
+        })
+    </script>
+}

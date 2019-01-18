@@ -1,0 +1,45 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <p class="navbar-brand m-0 w-100 text-center"><a target="_blank" href="/vuejs">VueJS</a> VS <a>Blazor</a></p>
+    <button class="navbar-toggler" onclick=@ToggleNavMenu>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class=@(collapseNavMenu ? "collapse" : null) onclick=@ToggleNavMenu>
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match=NavLinkMatch.All>
+                <span class="oi oi-code" aria-hidden="true"></span> Source
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="blazor/calculator" Match="NavLinkMatch.Prefix">
+                <span class="oi oi-calculator" aria-hidden="true"></span> Calculator
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="blazor/avengers" Match="NavLinkMatch.Prefix">
+                <span class="oi oi-people" aria-hidden="true"></span> Avengers
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="blazor/deck" Match="NavLinkMatch.Prefix">
+                <span class="oi oi-heart" aria-hidden="true"></span> Deck
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <a class="nav-link" href="blazor/tic-tac-toe">
+                <span class="oi oi-grid-three-up" aria-hidden="true"></span> Tic-Tac-Toe
+            </a>
+        </li>
+    </ul>
+</div>
+
+@functions {  
+    bool collapseNavMenu = true;
+
+    void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

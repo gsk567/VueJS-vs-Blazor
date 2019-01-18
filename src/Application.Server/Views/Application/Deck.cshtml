@@ -1,0 +1,137 @@
+﻿<div id="deck" class="w-100 text-center">
+    <div class="form-group row">
+        <select v-model.number="type" class="form-control text-center card-selector">
+            <option value="1">&#9827;</option>
+            <option value="2">&#9830;</option>
+            <option value="3">&#9829;</option>
+            <option value="4">&#9824;</option>
+        </select>
+        <select v-model.number="rank" class="form-control text-center card-selector">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+    </div>
+    <playing-card v-bind:type="type" v-bind:rank="rank"></playing-card>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script type="text/javascript">
+        Vue.component('playing-card', {
+            props: {
+                type: [Number],
+                rank: [Number]
+            },
+            methods: {
+                getTypeSymbol: function (type) {
+                    var characterSymbol = ["",""];
+                    switch (type) {
+                        case 1:
+                            characterSymbol = ['♣', 'color-black'];
+                            break;
+                        case 2:
+                            characterSymbol = ["♦", 'color-red'];
+                            break;
+                        case 3:
+                            characterSymbol = ['♥', 'color-red'];
+                            break;
+                        case 4:
+                            characterSymbol = ['♠', 'color-black'];
+                            break;
+                    }
+
+                    return characterSymbol;
+                },
+                getColumnsContent: function (rank, type) {
+                    var contentArray = [];
+                    var symbolHtml = this.getTypeSymbol(type)[0];
+                    var emptyHtml = "";
+                    switch (rank) {
+                        case 2:
+                            contentArray[1] = [symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml];
+                            break;
+                        case 3:
+                            contentArray[1] = [symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml];
+                            break;
+                        case 4:
+                            contentArray[0] = [symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml];
+                            contentArray[2] = [symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml];
+                            break;
+                        case 5:
+                            contentArray[0] = [symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml];
+                            contentArray[1] = [emptyHtml, symbolHtml, emptyHtml];
+                            contentArray[2] = [symbolHtml, emptyHtml, emptyHtml, emptyHtml, symbolHtml];
+                            break;
+                        case 6:
+                            contentArray[0] = [symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml];
+                            contentArray[2] = [symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml];
+                            break;
+                        case 7:
+                            contentArray[0] = [symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml];
+                            contentArray[1] = [symbolHtml, emptyHtml, emptyHtml];
+                            contentArray[2] = [symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml];
+                            break;
+                        case 8:
+                            contentArray[0] = [symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml];
+                            contentArray[1] = [symbolHtml, emptyHtml, emptyHtml, symbolHtml];
+                            contentArray[2] = [symbolHtml, emptyHtml, symbolHtml, emptyHtml, symbolHtml];
+                            break;
+                        case 9:
+                            contentArray[0] = [symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml];
+                            contentArray[1] = [emptyHtml, symbolHtml, emptyHtml];
+                            contentArray[2] = [symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml];
+                            break;
+                        case 10:
+                            contentArray[0] = [symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml];
+                            contentArray[1] = [symbolHtml, emptyHtml, symbolHtml];
+                            contentArray[2] = [symbolHtml, symbolHtml, emptyHtml, symbolHtml, symbolHtml];
+                            break;
+                    }
+
+                    return contentArray;
+                }
+            },
+            template: `
+                <div class="card deck-card w-300 pt-1 pb-1 pr-2 pl-2" v-bind:class="getTypeSymbol(type)[1]">
+                    <div class="front">
+                        <div class="text-left w-100">
+                            <h3 class="mb-1">{{rank}}</h3>
+                            <h3>{{getTypeSymbol(type)[0]}}</h3>
+                        </div>
+                        <div class="w-100 row h-300 deck-card-content m-0">
+                            <div class="deck-card-content-column">
+                                <p class="deck-card-content-symbol" v-for="c in getColumnsContent(rank, type)[0]">{{c}}</p>
+                            </div>
+                            <div class="deck-card-content-column">
+                                <p class="deck-card-content-symbol" v-for="c in getColumnsContent(rank, type)[1]">{{c}}</p>
+                            </div>
+                            <div class="deck-card-content-column">
+                                <p class="deck-card-content-symbol" v-for="c in getColumnsContent(rank, type)[2]">{{c}}</p>
+                            </div>
+                        </div>
+                        <div class="text-right w-100">
+                            <h3 class="mb-1">{{rank}}</h3>
+                            <h3>{{getTypeSymbol(type)[0]}}</h3>
+                        </div>
+                    </div>
+                    <p class="deck-card-credits">Powered by VueJS</p>
+                </div>
+                
+            `
+        });
+        new Vue({
+            el: '#deck',
+            data: {
+                type: 1,
+                rank: 2
+            }
+        })
+    </script>
+}
